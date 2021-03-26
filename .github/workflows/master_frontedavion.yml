@@ -25,8 +25,10 @@ jobs:
           CI: ""
         run: |
           npm install
+          npm install -g serve
           npm run build --if-present
           npm run test --if-present
+          serve -s build
 
       - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v2
