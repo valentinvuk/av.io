@@ -21,27 +21,29 @@ const App = () => {
   const [iataDest, setIataDest] = useState();
   const [flightData, setFlightData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { ref, inView, entry } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0,
   });
   const [cart, setCart] = useState([]);
   const [cartView, setCartView] = useState(false);
   const [avgPrice, setAvgPrice] = useState(100000);
-  const [auth, setAuth] = useState(false);
 
-  useEffect(async () => {
-    await fetch("https://test.api.amadeus.com/v1/security/oauth2/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        apiKey = data.access_token;
-      });
+  useEffect(() => {
+    async function fetching() {
+      await fetch("https://test.api.amadeus.com/v1/security/oauth2/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          apiKey = data.access_token;
+        });
+    }
+    fetching();
     if (iataDest) searchFlights();
   }, [iataDest]);
 

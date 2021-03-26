@@ -21,7 +21,6 @@ const Flights = ({
     setFromC(from);
     setDestC(dest);
     setLetovi(flights);
-    console.log(avgPrice);
   }, [flights]);
 
   return (
