@@ -4,7 +4,7 @@
 name: Build and deploy Node.js app to Azure Web App - avionfronted
 
 on:
-  push:
+  p ush:
     branches:
       - master
 
@@ -12,24 +12,26 @@ jobs:
   build-and-deploy:
     runs-on: windows-latest
 
+    env: CI:false
+
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
 
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'avionfronted'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c2369dc63f124623924db7f160a61723 }}
-        package: .
+      - name: "Deploy to Azure Web App"
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "avionfronted"
+          slot-name: "production"
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_c2369dc63f124623924db7f160a61723 }}
+          package: .
